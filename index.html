@@ -175,6 +175,63 @@
     initiate();
     makePlots(strCountry="./content/countries/iran/topo.json");
 
+
+    ///////////// charts using eCharts
+
+
+    let dom_right = document.getElementById("container");
+    let myChart = echarts.init(dom_right);
+
+    data=[];
+    function update_plot_data(cb){
+        data=[]
+        global_data.forEach(function(d)
+        {if(d.id===cb)
+        {
+            let mid_data_dates=d.data.dates;
+            let mid_data_values=d.data.values;
+            for(let i=0;i<mid_data_dates.length;i++)
+            {
+                data.push([mid_data_dates[i],mid_data_values[i]])
+            }
+        }});
+        option_right = {
+            xAxis: {
+                splitLine: {
+                    show: true
+                }
+                ,
+                data: data.map(function (item) {return item[0];})
+            },
+            yAxis: {
+                splitLine: {
+                    show: true
+                }
+            },
+            dataZoom: [
+                {startValue: '2015-01-01'},
+                {type: 'inside'}
+            ],
+            series: [
+                {
+                    name: 'BOM2',
+                    symbolSize: function(){return 10},
+                    type: 'scatter',
+                    data: data
+                },
+                {
+                    name: 'BOM2',
+                    symbolSize: function(){return 10},
+                    type: 'scatter',
+                    data: data
+                }
+            ]
+        };
+        myChart.setOption(option_right);
+    }
+    ;
+
+
 </script>
 </body>
 </html>
